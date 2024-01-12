@@ -12,7 +12,7 @@ export interface QuestionProps {
   authorId: UniqueEntityId
   bestAnswerId?: UniqueEntityId
   createdAt: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
   slug: Slug
   attachments: QuestionAttachmentList
 }
