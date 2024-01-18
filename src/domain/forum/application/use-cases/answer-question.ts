@@ -4,6 +4,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Either, right } from '@/core/either'
 import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
 import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list'
+import { Injectable } from '@nestjs/common'
 
 interface AnswerQuestionUseCaseRequest {
   instructorId: string
@@ -14,6 +15,7 @@ interface AnswerQuestionUseCaseRequest {
 
 type AnswerQuestionUseResponse = Either<null, { answer: Answer }>
 
+@Injectable()
 export class AnswerQuestionUseCase {
   constructor(private answersRepository: AnswersRepository) {}
 

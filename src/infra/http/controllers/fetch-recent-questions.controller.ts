@@ -29,15 +29,19 @@ export class FetchRecentQuestionsController {
   async handle(
     @Query('page', queryValidationPipe) page: PageQueryParamsSchema,
   ) {
-    const result = await this.fetchRecentQuestions.execute({
-      page,
-    })
-    if (result.isLeft()) {
-      throw new BadRequestException()
-    }
-    const questions = result.value.questions
-    return {
-      questions: questions.map(QuestionPresenter.toHTTP),
+    try {
+      const result = await this.fetchRecentQuestions.execute({
+        page,
+      })
+      if (result.isLeft()) {
+        throw new BadRequestException()
+      }
+      const questions = result.value.questions
+      return {
+        questions: questions.map(QuestionPresenter.toHTTP),
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
 }
