@@ -29,20 +29,16 @@ export class CreateQuestionController {
     @CurrentUser() user: UserPayload,
     @Body(bodyValidationPipe) body: CreateQuestionBodySchema,
   ) {
-    try {
-      const { title, content } = body
-      const userId = user.sub
-      const result = await this.createQuestion.execute({
-        title,
-        content,
-        authorId: userId,
-        attachmentsIds: [],
-      })
-      if (result.isLeft()) {
-        throw new BadRequestException()
-      }
-    } catch (err) {
-      console.log(err)
+    const { title, content } = body
+    const userId = user.sub
+    const result = await this.createQuestion.execute({
+      title,
+      content,
+      authorId: userId,
+      attachmentsIds: [],
+    })
+    if (result.isLeft()) {
+      throw new BadRequestException()
     }
   }
 
