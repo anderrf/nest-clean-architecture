@@ -25,6 +25,18 @@ import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answ
 import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
 import { DeleteAnswerUseCase } from '@/domain/forum/application/use-cases/delete-answer'
 import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers'
+import { CommentOnQuestionController } from './controllers/comment-on-question.controller'
+import { CommentOnAnswerController } from './controllers/comment-on-answer.controller'
+import { FetchQuestionCommentsController } from './controllers/fetch-question-comments.controller'
+import { FetchAnswerCommentsController } from './controllers/fetch-answer-comments.controller'
+import { DeleteQuestionCommentController } from './controllers/delete-question-comment.controller'
+import { DeleteAnswerCommentController } from './controllers/delete-answer-comment.controller'
+import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/comment-on-question'
+import { CommentOnAnswerUseCase } from '@/domain/forum/application/use-cases/comment-on-answer'
+import { FetchQuestionCommentsUseCase } from '@/domain/forum/application/use-cases/fetch-question-comments'
+import { FetchAnswerCommentsUseCase } from '@/domain/forum/application/use-cases/fetch-answer-comments'
+import { DeleteQuestionCommentUseCase } from '@/domain/forum/application/use-cases/delete-question-comment'
+import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases/delete-answer-comment'
 
 @Module({
   controllers: [
@@ -40,6 +52,12 @@ import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-case
     DeleteAnswerController,
     FetchQuestionAnswersController,
     chooseQuestionBestAnswerController,
+    CommentOnQuestionController,
+    CommentOnAnswerController,
+    FetchQuestionCommentsController,
+    FetchAnswerCommentsController,
+    DeleteQuestionCommentController,
+    DeleteAnswerCommentController,
   ],
   imports: [DatabaseModule, CryptographyModule],
   providers: [
@@ -55,6 +73,12 @@ import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-case
     DeleteAnswerUseCase,
     FetchQuestionAnswersUseCase,
     ChooseQuestionBestAnswerUseCase,
+    CommentOnQuestionUseCase,
+    CommentOnAnswerUseCase,
+    FetchQuestionCommentsUseCase,
+    FetchAnswerCommentsUseCase,
+    DeleteQuestionCommentUseCase,
+    DeleteAnswerCommentUseCase,
   ],
 })
 export class HttpModule {}
