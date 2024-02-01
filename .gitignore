@@ -39,3 +39,7 @@ data
 
 # Environment
 .env
+.env.test
+
+# Test
+test/e2e/sample-upload.jpg
