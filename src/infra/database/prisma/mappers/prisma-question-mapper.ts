@@ -4,13 +4,15 @@ import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
 import { Prisma, Question as PrismaQuestion } from 'prisma/prisma-client'
 
 export class PrismaQuestionMapper {
-  static toDomain(raw: PrismaQuestion) {
+  static toDomain(raw: PrismaQuestion): Question {
     return Question.create(
       {
         title: raw.title,
         content: raw.content,
         authorId: new UniqueEntityId(raw.authorId),
-        bestAnswerId: undefined,
+        bestAnswerId: raw.bestAnswerId
+          ? new UniqueEntityId(raw.bestAnswerId)
+          : null,
         slug: Slug.create(raw.slug),
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,

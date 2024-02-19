@@ -10,7 +10,7 @@ export interface QuestionProps {
   title: string
   content: string
   authorId: UniqueEntityId
-  bestAnswerId?: UniqueEntityId
+  bestAnswerId?: UniqueEntityId | null
   createdAt: Date
   updatedAt?: Date | null
   slug: Slug
@@ -56,7 +56,7 @@ export class Question extends AggregateRoot<QuestionProps> {
     return this.props.authorId
   }
 
-  get bestAnswerId() {
+  get bestAnswerId(): UniqueEntityId | null | undefined {
     return this.props.bestAnswerId
   }
 
