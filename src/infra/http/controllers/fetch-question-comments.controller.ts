@@ -7,9 +7,10 @@ import {
   Param,
   Query,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { z } from 'zod'
-import { CommentPresenter } from '../presenters/comment-presenter'
+
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { CommentWithAuthorPresenter } from '../presenters/comment-with-author-presenter'
 
 const pageQueryParamSchema = z
   .string()
@@ -37,7 +38,9 @@ export class FetchQuestionCommentsController {
     if (result.isLeft()) {
       throw new BadRequestException()
     }
-    const questionComments = result.value.questionComments
-    return { questionComments: questionComments.map(CommentPresenter.toHTTP) }
+    const questionComments = result.value.comments
+    return {
+      questionComments: questionComments.map(CommentWithAuthorPresenter.toHTTP),
+    }
   }
 }
