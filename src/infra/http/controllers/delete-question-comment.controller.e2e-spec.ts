@@ -58,7 +58,6 @@ describe('Delete Question Comments (E2E)', () => {
     const questionCommentOnDatabase = await prisma.comment.findUnique({
       where: { id: questionCommentId },
     })
-    console.log(questionCommentOnDatabase)
     expect(questionCommentOnDatabase).toBeNull()
   })
 })

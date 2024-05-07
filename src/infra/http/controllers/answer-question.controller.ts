@@ -14,6 +14,7 @@ import { UserPayload } from '@/infra/auth/jwt.strategy'
 
 const answerQuestionBodySchema = z.object({
   content: z.string(),
+  attachments: z.array(z.string().uuid()).default([]),
 })
 const bodyValidationPipe = new ZodValidationPipe(answerQuestionBodySchema)
 type AnswerQuestionBodySchema = z.infer<typeof answerQuestionBodySchema>
@@ -29,13 +30,13 @@ export class AnswerQuestionController {
     @Param('questionId') questionId: string,
     @CurrentUser() user: UserPayload,
   ) {
-    const { content } = body
+    const { content, attachments } = body
     const userId = user.sub
     const result = await this.answerQuestion.execute({
       authorId: userId,
       questionId,
       content,
-      attachmentsIds: [],
+      attachmentsIds: attachments,
     })
     if (result.isLeft()) {
       throw new BadRequestException()

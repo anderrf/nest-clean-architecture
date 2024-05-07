@@ -10,7 +10,7 @@ import {
 import { z } from 'zod'
 
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
-import { AnswerPresenter } from '../presenters/answer-presenter'
+import { AnswerDetailsPresenter } from './../presenters/answer-details-presenter'
 
 const pageQueryParamSchema = z
   .string()
@@ -39,6 +39,6 @@ export class FetchQuestionAnswersController {
       throw new BadRequestException()
     }
     const answers = result.value.answers
-    return { answers: answers.map(AnswerPresenter.toHTTP) }
+    return { answers: answers.map(AnswerDetailsPresenter.toHTTP) }
   }
 }

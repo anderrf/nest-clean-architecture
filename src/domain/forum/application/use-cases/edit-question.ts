@@ -1,14 +1,13 @@
-import { Either } from './../../../../core/either'
-import { left, right } from '@/core/either'
-import { Question } from '../../enterprise/entities/question'
+import { Either, left, right } from '@/core/either'
+import { Question } from '@/domain/forum/enterprise/entities/question'
 import { QuestionsRepository } from '../repositories/questions-repository'
+import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository'
+import { QuestionAttachmentList } from '@/domain/forum/enterprise/entities/question-attachment-list'
+import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment'
+import { Injectable } from '@nestjs/common'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { NotAllowedError } from './errors/not-allowed-error'
-import { QuestionAttachmentsRepository } from '../repositories/question-attachments-repository'
-import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
-import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { Injectable } from '@nestjs/common'
 
 interface EditQuestionUseCaseRequest {
   authorId: string
@@ -40,28 +39,39 @@ export class EditQuestionUseCase {
     attachmentsIds,
   }: EditQuestionUseCaseRequest): Promise<EditQuestionUseCaseResponse> {
     const question = await this.questionsRepository.findById(questionId)
+
     if (!question) {
       return left(new ResourceNotFoundError())
     }
+
     if (authorId !== question.authorId.toString()) {
       return left(new NotAllowedError())
     }
+
     const currentQuestionAttachments =
       await this.questionAttachmentsRepository.findManyByQuestionId(questionId)
+
     const questionAttachmentList = new QuestionAttachmentList(
       currentQuestionAttachments,
     )
+
     const questionAttachments = attachmentsIds.map((attachmentId) => {
       return QuestionAttachment.create({
         attachmentId: new UniqueEntityId(attachmentId),
         questionId: question.id,
       })
     })
+
     questionAttachmentList.update(questionAttachments)
+
+    question.attachments = questionAttachmentList
     question.title = title
     question.content = content
-    question.attachments = questionAttachmentList
+
     await this.questionsRepository.save(question)
-    return right({ question })
+
+    return right({
+      question,
+    })
   }
 }
